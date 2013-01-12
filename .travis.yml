@@ -23,3 +23,9 @@ notifications:
   irc:
     channels:
      - "irc.freenode.org#yamaki-project"
+    on_success: always
+    on_failure: always
+    use_notice: true
+    template:
+      - "%{repository} (%{commit}) : %{message} %{foo} "
+      - "Build details: %{build_url}"
