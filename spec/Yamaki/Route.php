@@ -59,6 +59,10 @@ class Route extends ObjectBehavior
         $this -> matches('/hello/aaa/bbb')->shouldbe(true);
         $this -> param('first') -> shouldBe('aaa');
         $this -> param('last')  -> shouldBe('bbb');
+
+        $this -> matches('/hello/%E3%82%84%E3%81%BE%E3%81%8D/%E6%97%85%E9%A4%A8')->shouldbe(true);
+        $this -> param('first') -> shouldBe('やまき');
+        $this -> param('last')  -> shouldBe('旅館');
     }
 
 }

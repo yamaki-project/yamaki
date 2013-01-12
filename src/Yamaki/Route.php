@@ -47,7 +47,7 @@ class Route
         }
         foreach ( $this -> _paramNames as $key ) {
             if ( isset($paramValues[$key]) ) {
-                $this -> _param[$key] = $paramValues[$key];
+                $this -> _param[$key] = urldecode($paramValues[$key]);
             }
         }
         return true;
