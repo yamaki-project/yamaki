@@ -19,3 +19,7 @@ before_script:
   - php composer.phar install --dev
 
 script: bin/phpspec run -v
+notifications:
+  irc:
+    channels:
+     - "irc.freenode.org#yamaki-project"
