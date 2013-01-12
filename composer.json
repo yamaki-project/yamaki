@@ -1,5 +1,5 @@
 {
-    "name": "freddiefujiwara/yamaki",
+    "name": "yamaki-project/yamaki",
     "require" : {},
     "require-dev": {
       "phpspec/phpspec2": "*@dev"
