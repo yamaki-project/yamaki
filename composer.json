@@ -1,0 +1,24 @@
+{
+    "name": "freddiefujiwara/yamaki",
+    "require" : {},
+    "require-dev": {
+      "phpspec/phpspec2": "*@dev"
+    },
+    "config": {
+      "bin-dir": "bin"
+    },
+    "autoload": {"psr-0": {"": "src"}},
+    "minimum-stability" : "stable",
+    "authors" : [
+      {
+         "name" : "Freddie Fujiwara",
+         "email" : "github@ze.gs"
+      },
+      {
+         "name" : "Shunsuke Masuzawa"
+      },
+      {
+         "name" : "Masahiro Kashima"
+      }
+    ]
+}
