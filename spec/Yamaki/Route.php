@@ -35,7 +35,7 @@ class Route extends ObjectBehavior
         $rule = "/hello/:first/:last";
         $this -> rule($rule)
               -> matchesRegex()
-              -> shouldBe('/hello/(?P<first>[^/]+)/(?P<last>[^/]+)');
+              -> shouldBe('/hello/(?P<first>[^/]+)/(?P<last>[^/]+)/?');
     }
 
     function it_should_be_made_regex_for_splitted_rules()
@@ -60,9 +60,16 @@ class Route extends ObjectBehavior
         $this -> param('first') -> shouldBe('aaa');
         $this -> param('last')  -> shouldBe('bbb');
 
+        $this -> matches('/hello/aaa/bbb/')->shouldbe(true);
+        $this -> param('first') -> shouldBe('aaa');
+        $this -> param('last')  -> shouldBe('bbb');
+
         $this -> matches('/hello/%E3%82%84%E3%81%BE%E3%81%8D/%E6%97%85%E9%A4%A8')->shouldbe(true);
         $this -> param('first') -> shouldBe('やまき');
         $this -> param('last')  -> shouldBe('旅館');
+
+        $this -> matches('/hello/aaa/bbb')->shouldbe(true);
+        $this -> param('ccc') -> shouldBe(null);
     }
 
 }

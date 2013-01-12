@@ -7,7 +7,7 @@ class Route
     private $_rule;
     private $_callback;
     private $_paramNames = array();
-    private $_param      = array();
+    private $_params     = array();
 
     public function map($rule,$callable)
     {
@@ -47,7 +47,7 @@ class Route
         }
         foreach ( $this -> _paramNames as $key ) {
             if ( isset($paramValues[$key]) ) {
-                $this -> _param[$key] = urldecode($paramValues[$key]);
+                $this -> _params[$key] = urldecode($paramValues[$key]);
             }
         }
         return true;
@@ -55,7 +55,9 @@ class Route
 
     public function matchesRegex()
     {
-        return preg_replace_callback('@:(\w+)@', array($this, 'matchesRegexMaker'),$this -> rule());
+        $matchesRegex  = preg_replace_callback('@:(\w+)@', array($this, 'matchesRegexMaker'),$this -> rule());
+        $matchesRegex .= preg_match('@/$@',$matchesRegex) ? '?' : '/?';
+        return $matchesRegex;
     }
 
     public function matchesRegexMaker($matches)
@@ -66,6 +68,9 @@ class Route
 
     public function param($key)
     {
-        return $this -> _param[$key];
+        if ( !array_key_exists($key, $this -> _params) ) {
+            return null;
+        }
+        return $this -> _params[$key];
     }
 }
