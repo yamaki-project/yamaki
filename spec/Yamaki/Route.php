@@ -52,9 +52,13 @@ class Route extends ObjectBehavior
     {
         $rule = "/hello/:first/:last";
         $this -> rule($rule)
-              -> matches('/hello/1/2')->shouldBe(true);
+              -> matches('/hello/1/2')->shouldbe(true);
         $this -> param('first') -> shouldBe('1');
         $this -> param('last')  -> shouldBe('2');
+
+        $this -> matches('/hello/aaa/bbb')->shouldbe(true);
+        $this -> param('first') -> shouldBe('aaa');
+        $this -> param('last')  -> shouldBe('bbb');
     }
 
 }
