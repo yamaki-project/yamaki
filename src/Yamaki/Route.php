@@ -6,6 +6,8 @@ class Route
 {
     private $_rule;
     private $_callback;
+    private $_paramNames = array();
+    private $_param      = array();
 
     public function map($rule,$callable)
     {
@@ -43,6 +45,11 @@ class Route
         if (!preg_match('@^' . $this -> matchesRegex() . '$@', $pathInfo, $paramValues)) {
           return false;
         }
+        foreach ( $this -> _paramNames as $key ) {
+            if ( isset($paramValues[$key]) ) {
+                $this -> _param[$key] = $paramValues[$key];
+            }
+        }
         return true;
     }
 
@@ -53,6 +60,12 @@ class Route
 
     public function matchesRegexMaker($matches)
     {
+        $this -> _paramNames[] = $matches[1];
         return '(?P<'.$matches[1].'>[^/]+)';
+    }
+
+    public function param($key)
+    {
+        return $this -> _param[$key];
     }
 }
