@@ -8,6 +8,6 @@ class Route extends ObjectBehavior
 {
     function it_should_be_initializable()
     {
-        $this->shouldHaveType('Route');
+        $this->shouldHaveType('\Yamaki\Route');
     }
 }
