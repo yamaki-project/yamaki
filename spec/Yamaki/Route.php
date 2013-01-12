@@ -74,12 +74,54 @@ class Route extends ObjectBehavior
         $this -> matches('/hello/aaa.m=mval.c=cval/t=tval.u=uval.bbb')->shouldbe(true);
         $this -> param('first') -> shouldBe(array(
             'aaa',
-            array('m' => 'mval','c' => 'cval')
+            'm' => 'mval',
+            'c' => 'cval'
         ));
         $this -> param('last') -> shouldBe(array(
-            array('t' => 'tval','u' => 'uval'),
+            't' => 'tval',
+            'u' => 'uval',
             'bbb'
         ));
+    }
+
+    function it_should_get_as_sub_params()
+    {
+        $this -> subMatches('aaa.b=bval.c=cval')->shouldbe(array(
+            'aaa',
+            'b' => 'bval',
+            'c' => 'cval'
+        ));
+
+        $this -> subMatches('aaa.b=bval.c=')->shouldbe(array(
+            'aaa',
+            'b' => 'bval',
+            'c' => ''
+        ));
+
+        $this -> subMatches('aaa.b=bval.=cval')->shouldbe(array(
+            'aaa',
+            'b' => 'bval'
+        ));
+
+        $this -> subMatches('aaa.b=bval...c=cval')->shouldbe(array(
+            'aaa',
+            'b' => 'bval',
+            'c' => 'cval'
+        ));
+
+        $this -> subMatches('aaa.b=bval.=.c=cval')->shouldbe(array(
+            'aaa',
+            'b' => 'bval',
+            'c' => 'cval'
+        ));
+
+        $this -> subMatches('.aaa.')->shouldbe(array(
+            'aaa'
+        ));
+
+        $this -> subMatches('aaa')->shouldbe(
+            'aaa'
+        );
     }
 
 }

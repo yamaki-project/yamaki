@@ -47,7 +47,7 @@ class Route
         }
         foreach ( $this -> _paramNames as $key ) {
             if ( isset($paramValues[$key]) ) {
-                $this -> _params[$key] = urldecode($paramValues[$key]);
+                $this -> _params[$key] = $this -> subMatches(urldecode($paramValues[$key]));
             }
         }
         return true;
@@ -73,4 +73,25 @@ class Route
         }
         return $this -> _params[$key];
     }
+
+    public function subMatches($param)
+    {
+        if(!preg_match('/\./',$param)){
+            return $param;
+        }
+        $subParams = array();
+        $subParamCandidates = explode(".", $param);
+        foreach($subParamCandidates as $subParamCandidate){
+            if(preg_match('/=/',$subParamCandidate)){
+                $keyValue = explode("=", $subParamCandidate);
+                if(empty($keyValue[0])) { continue; }
+                $subParams[$keyValue[0]] = $keyValue[1];
+                continue;
+            }
+            if(empty($subParamCandidate)) { continue; }
+            $subParams[] = $subParamCandidate;
+        }
+        return $subParams;
+    }
+
 }
