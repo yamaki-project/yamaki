@@ -70,6 +70,16 @@ class Route extends ObjectBehavior
 
         $this -> matches('/hello/aaa/bbb')->shouldbe(true);
         $this -> param('ccc') -> shouldBe(null);
+
+        $this -> matches('/hello/aaa.m=mval.c=cval/t=tval.u=uval.bbb')->shouldbe(true);
+        $this -> param('first') -> shouldBe(array(
+            'aaa',
+            array('m' => 'mval','c' => 'cval')
+        ));
+        $this -> param('last') -> shouldBe(array(
+            array('t' => 'tval','u' => 'uval'),
+            'bbb'
+        ));
     }
 
 }
