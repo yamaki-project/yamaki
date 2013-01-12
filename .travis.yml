@@ -22,7 +22,7 @@ script: bin/phpspec run -v
 notifications:
   irc:
     channels:
-     - "irc.freenode.org#yamaki-project"
+     - "irc.freenode.net#yamaki-project"
     on_success: always
     on_failure: always
     use_notice: true
