@@ -13,7 +13,7 @@ class Route extends ObjectBehavior
 
     function it_should_set_rule()
     {
-        $rule = "/hello/:first/:last";
+        $rule = "/yamaki/:ichiban/:niban";
         $this -> rule($rule)
               -> rule()
               -> shouldBe($rule);
@@ -30,58 +30,78 @@ class Route extends ObjectBehavior
         $this -> shouldThrow(new \InvalidArgumentException("callback must be callable")) -> duringCallback('test');
     }
 
+    function it_should_set_no_submatches()
+    {
+        $noSubmatches = array('foo','bar');
+        $this -> noSubmatches($noSubmatches)
+              -> noSubmatches()
+              -> shouldBe($noSubmatches);
+        $this -> shouldThrow(new \InvalidArgumentException("noSubmatches must be array")) -> duringnoSubmatches('test');
+    }
+
     function it_should_be_made_regex_for_matches()
     {
-        $rule = "/hello/:first/:last";
+        $rule = "/yamaki/:ichiban/:niban";
         $this -> rule($rule)
               -> matchesRegex()
-              -> shouldBe('/hello/(?P<first>[^/]+)/(?P<last>[^/]+)/?');
+              -> shouldBe('/yamaki/(?P<ichiban>[^/]+)/(?P<niban>[^/]+)/?');
     }
 
     function it_should_be_made_regex_for_splitted_rules()
     {
         $matches = array(
-            ':first',
-            'first'
+            ':ichiban',
+            'ichiban'
         );
         $this -> matchesRegexMaker($matches)
-              -> shouldBe('(?P<first>[^/]+)');
+              -> shouldBe('(?P<ichiban>[^/]+)');
     }
 
     function it_should_get_as_params()
     {
-        $rule = "/hello/:first/:last";
+        $rule = "/yamaki/:ichiban/:niban";
         $this -> rule($rule)
-              -> matches('/hello/1/2')->shouldbe(true);
-        $this -> param('first') -> shouldBe('1');
-        $this -> param('last')  -> shouldBe('2');
+              -> matches('/yamaki/1/2')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe('1');
+        $this -> param('niban')  -> shouldBe('2');
 
-        $this -> matches('/hello/aaa/bbb')->shouldbe(true);
-        $this -> param('first') -> shouldBe('aaa');
-        $this -> param('last')  -> shouldBe('bbb');
+        $this -> matches('/yamaki/aaa/bbb')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe('aaa');
+        $this -> param('niban')  -> shouldBe('bbb');
 
-        $this -> matches('/hello/aaa/bbb/')->shouldbe(true);
-        $this -> param('first') -> shouldBe('aaa');
-        $this -> param('last')  -> shouldBe('bbb');
+        $this -> matches('/yamaki/aaa/bbb/')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe('aaa');
+        $this -> param('niban')  -> shouldBe('bbb');
 
-        $this -> matches('/hello/%E3%82%84%E3%81%BE%E3%81%8D/%E6%97%85%E9%A4%A8')->shouldbe(true);
-        $this -> param('first') -> shouldBe('やまき');
-        $this -> param('last')  -> shouldBe('旅館');
+        $this -> matches('/yamaki/%E3%82%84%E3%81%BE%E3%81%8D/%E6%97%85%E9%A4%A8')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe('やまき');
+        $this -> param('niban')  -> shouldBe('旅館');
 
-        $this -> matches('/hello/aaa/bbb')->shouldbe(true);
+        $this -> matches('/yamaki/aaa/bbb')->shouldbe(true);
         $this -> param('ccc') -> shouldBe(null);
 
-        $this -> matches('/hello/aaa.m=mval.c=cval/t=tval.u=uval.bbb')->shouldbe(true);
-        $this -> param('first') -> shouldBe(array(
+        $this -> matches('/yamaki/aaa.m=mval.c=cval/t=tval.u=uval.bbb')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe(array(
             'aaa',
             'm' => 'mval',
             'c' => 'cval'
         ));
-        $this -> param('last') -> shouldBe(array(
+        $this -> param('niban') -> shouldBe(array(
             't' => 'tval',
             'u' => 'uval',
             'bbb'
         ));
+
+        $this -> noSubmatches(array('niban'))
+              -> matches('/yamaki/aaa.m=mval.c=cval/t=tval.u=uval.bbb')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe(array(
+            'aaa',
+            'm' => 'mval',
+            'c' => 'cval'
+        ));
+        $this -> param('niban') -> shouldBe(
+            't=tval.u=uval.bbb'
+        );
     }
 
     function it_should_get_as_sub_params()

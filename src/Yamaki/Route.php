@@ -6,6 +6,7 @@ class Route
 {
     private $_rule;
     private $_callback;
+    private $_noSubmatches = array();
     private $_paramNames = array();
     private $_params     = array();
 
@@ -40,6 +41,18 @@ class Route
         return $this;
     }
 
+    public function noSubmatches($noSubmatches = null)
+    {
+        if(is_null($noSubmatches)){
+          return $this -> _noSubmatches;
+        }
+        if(!is_array($noSubmatches)){
+          throw new \InvalidArgumentException("noSubmatches must be array");
+        }
+        $this -> _noSubmatches = $noSubmatches;
+        return $this;
+    }
+
     public function matches($pathInfo)
     {
         if (!preg_match('@^' . $this -> matchesRegex() . '$@', $pathInfo, $paramValues)) {
@@ -47,7 +60,8 @@ class Route
         }
         foreach ( $this -> _paramNames as $key ) {
             if ( isset($paramValues[$key]) ) {
-                $this -> _params[$key] = $this -> subMatches(urldecode($paramValues[$key]));
+                $value = urldecode($paramValues[$key]);
+                $this -> _params[$key] = in_array($key, $this -> noSubmatches()) ? $value : $this -> subMatches($value);
             }
         }
         return true;
