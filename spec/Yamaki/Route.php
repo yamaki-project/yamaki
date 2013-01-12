@@ -144,4 +144,14 @@ class Route extends ObjectBehavior
         );
     }
 
+    function it_should_run(){
+        $rule = "/yamaki/:ichiban/:niban";
+        $this -> rule($rule)
+              -> callback(function($route){
+                     $route -> param('ichiban');
+                     $route -> param('niban');
+        })
+              -> matches('/yamaki/1/2')->shouldbe(true);
+        $this -> run();
+    }
 }

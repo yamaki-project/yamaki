@@ -108,4 +108,8 @@ class Route
         return $subParams;
     }
 
+    public function run()
+    {
+       call_user_func_array($this -> callback(),array($this)); 
+    }
 }
