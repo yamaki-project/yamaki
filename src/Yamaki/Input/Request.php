@@ -39,4 +39,28 @@ class Request
     {
         return $_SERVER['ORIG_PATH_INFO'];
     }
+
+    public function queryHashByOrder()
+    {
+        $hash = array();
+        foreach(preg_split("/[&;]/",$this -> queryString()) as $keyValue){
+            $keyValue = explode("=",$keyValue);
+            if(count($keyValue)<2){
+                continue;
+            }
+            $keyValue[1] = urldecode(mb_convert_encoding($keyValue[1], 'UTF-8'));
+            if ( array_key_exists($keyValue[0], $hash) ) {
+                $hash[$keyValue[0]] = array( $hash[$keyValue[0]], $keyValue[1]);
+            } else {
+                $hash[$keyValue[0]] = $keyValue[1];
+            }
+        }
+        return $hash;
+    }
+
+    public function queryHash()
+    {
+        parse_str($this -> queryString(), $hash);
+        return $hash;
+    }
 }

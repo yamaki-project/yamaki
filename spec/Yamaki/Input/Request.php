@@ -33,4 +33,35 @@ class Request extends ObjectBehavior
         $this -> pathInfo()    -> shouldBe('/hoge/fuga/');
         $this -> orgPathInfo() -> shouldBe('/hoge/fuga/hage');
     }
+
+    function it_should_parse_query_by_order()
+    {
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=";
+        $this->queryHashByOrder()->shouldReturn(array("aaa" => "bbb" , "ccc" => "ddd" , "fff" => "")); 
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=&";
+        $this->queryHashByOrder()->shouldReturn(array("aaa" => "bbb" , "ccc" => "ddd" , "fff" => ""));
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=&aaa=ggg";
+        $this->queryHashByOrder()->shouldReturn(array("aaa" => array("bbb","ggg") , "ccc" => "ddd" , "fff" => ""));
+        $_SERVER['QUERY_STRING'] = "key=%25%26%21%22";
+        $this->queryHashByOrder()->shouldReturn(array("key"=>"%&!\""));
+        $_SERVER['QUERY_STRING'] = "key=%E8%97%A4%E5%8E%9F";
+        $this->queryHashByOrder()->shouldReturn(array("key"=>"藤原"));
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd";
+        $this->queryHashByOrder()->shouldReturn(array("aaa"=>"bbb", "ccc"=>"ddd"));
+    }
+
+    function it_should_parse_query() {
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=";
+        $this->queryHash()->shouldReturn(array("aaa" => "bbb" , "ccc" => "ddd" , "fff" => "")); 
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=&";
+        $this->queryHash()->shouldReturn(array("aaa" => "bbb" , "ccc" => "ddd" , "fff" => ""));
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd&fff=&aaa=ggg";
+        $this->queryHash()->shouldReturn(array("aaa" => "ggg" , "ccc" => "ddd" , "fff" => ""));
+        $_SERVER['QUERY_STRING'] = "key=%25%26%21%22";
+        $this->queryHash()->shouldReturn(array("key"=>"%&!\""));
+        $_SERVER['QUERY_STRING'] = "key=%E8%97%A4%E5%8E%9F";
+        $this->queryHash()->shouldReturn(array("key"=>"藤原"));
+        $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd";
+        $this->queryHash()->shouldReturn(array("aaa"=>"bbb", "ccc"=>"ddd"));
+    }
 }
