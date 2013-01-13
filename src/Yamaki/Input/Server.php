@@ -39,4 +39,24 @@ class Server
     {
         return $_SERVER['SERVER_SIGNATURE'];
     }
+
+    public function gawayInterface()
+    {
+        return $_SERVER['GATEWAY_INTERFACE'];
+    }
+
+    public function documentRoot()
+    {
+        return $_SERVER['DOCUMENT_ROOT'];
+    }
+
+    public function scriptFilename()
+    {
+        return $_SERVER['SCRIPT_FILENAME'];
+    }
+
+    public function pathTranslated()
+    {
+        return $_SERVER['PATH_TRANSLATED'];
+    }
 }
