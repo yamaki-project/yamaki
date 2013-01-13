@@ -10,10 +10,16 @@ class Router
 
     public function put($route)
     {
-        if(in_array($route -> matchesRegex(),array_keys($this -> _routes))){
-            throw new \InvalidArgumentException("same rule not be allowed");
+        foreach($this -> _routes as  $compareWithRoute){
+            if($compareWithRoute -> matchesRegex() === $route -> matchesRegex()){
+                foreach($compareWithRoute -> via() as $compareWithVia){
+                    if(in_array($compareWithVia,$route -> via())){
+                        throw new \InvalidArgumentException("same rule not be allowed");
+                    }
+                }
+            }
         }
-        $this -> _routes[$route -> matchesRegex() ] = $route;
+        $this -> _routes[] = $route;
     }
 
     public function input($input)
@@ -23,7 +29,7 @@ class Router
 
     public function dispatch()
     {
-        foreach( array_values($this -> _routes) as $route ) {
+        foreach( $this -> _routes as $route ) {
             if ( $route -> matches($this -> _input -> request()-> pathinfo())) {
                 $route->run();
                 return $route;

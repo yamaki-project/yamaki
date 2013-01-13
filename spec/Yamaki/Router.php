@@ -16,28 +16,39 @@ class Router extends ObjectBehavior
         $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
-        $route1 = \Yamaki\Route::generate()
+        $willMatcheRoute = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
+                -> callback(function(){});
+        $this -> put($willMatcheRoute);
+
+        $this -> put(\Yamaki\Route::generate()
                 -> rule("/hoge2/:fuga/")
-                -> callback(function(){});
-        $this -> put($route1);
+                -> viaGet()
+                -> callback(function(){}));
 
-        $route2 = \Yamaki\Route::generate()
+        $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed"))
+                -> duringPut(\Yamaki\Route::generate()
                 -> rule("/hoge/:fuga/")
-                -> callback(function(){});
-        $this -> put($route2);
+                -> callback(function(){}));
 
-        $route3 = \Yamaki\Route::generate()
-                -> rule("/hoge/:fuga/")
-                -> callback(function(){});
-        $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed")) -> duringPut($route3);
-
-        $route4 = \Yamaki\Route::generate()
+        $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed"))
+                -> duringPut(\Yamaki\Route::generate()
                 -> rule("/hoge/:fuga")
-                -> callback(function(){});
-        $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed")) -> duringPut($route4);
+                -> callback(function(){}));
+
+        $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed"))
+                -> duringPut(\Yamaki\Route::generate()
+                -> rule("/hoge2/:fuga")
+                -> callback(function(){}));
+
+        $this -> shouldNotThrow(new \InvalidArgumentException("same rule not be allowed"))
+                -> duringPut(\Yamaki\Route::generate()
+                -> rule("/hoge2/:fuga")
+                -> viaPost()
+                -> callback(function(){}));
 
         $this -> dispatch() -> shouldHaveType('Yamaki\Route');
-        $this -> dispatch() -> shouldBe($route2);
+        $this -> dispatch() -> shouldBe($willMatcheRoute);
     }
 
     function it_should_have_default_route()

@@ -5,6 +5,7 @@ namespace Yamaki;
 class Route
 {
     private $_rule;
+    private $_via = array('GET','POST');
     private $_callback;
     private $_noSubmatches = array();
     private $_noDecodes    = array();
@@ -14,12 +15,6 @@ class Route
     public static function generate()
     {
         return new self();
-    }
-
-    public function map($rule,$callable)
-    {
-        $this->rule($rule);
-        return $this;
     }
 
     public function rule($rule = null)
@@ -33,6 +28,31 @@ class Route
           return $this;
         }
         throw new \InvalidArgumentException("rule must be string");
+    }
+
+    public function viaGet()
+    {
+        return $this -> via('GET');
+    }
+
+    public function viaPost()
+    {
+        return $this -> via('POST');
+    }
+
+    public function via($via = null)
+    {
+        if(is_null($via)){
+          return $this -> _via;
+        }
+        if(in_array($via,array(
+            'GET',
+            'POST'
+        ))){
+          $this -> _via = array($via);
+          return $this;
+        }
+        throw new \InvalidArgumentException("via must be GET or POST");
     }
 
     public function callback($callback = null)

@@ -18,7 +18,7 @@ class Route extends ObjectBehavior
         //$this->beCreatedStaticallyWith(array('Yamaki\Route', 'generate'), array());
     }
 
-    function it_should_set_rule()
+    function it_should_set_a_rule()
     {
         $rule = "/yamaki/:ichiban/:niban";
         $this -> rule($rule)
@@ -26,6 +26,27 @@ class Route extends ObjectBehavior
               -> shouldBe($rule);
         $this -> shouldThrow(new \InvalidArgumentException("callback must be callable")) -> duringCallback('test');
         $this -> shouldThrow(new \InvalidArgumentException("rule must be string")) -> duringRule(function () {});
+    }
+
+    function it_should_set_a_via()
+    {
+        $via = "GET";
+        $this -> via()
+              -> shouldBe(array('GET','POST'));
+
+        $this -> via($via)
+              -> via()
+              -> shouldBe(array($via));
+
+        $this -> viaGet()
+              -> via()
+              -> shouldBe(array($via));
+
+        $this -> viaPost()
+              -> via()
+              -> shouldBe(array('POST'));
+
+        $this -> shouldThrow(new \InvalidArgumentException("via must be GET or POST")) -> duringVia('test');
     }
 
     function it_should_set_callback()
