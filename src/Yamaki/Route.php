@@ -7,8 +7,9 @@ class Route
     private $_rule;
     private $_callback;
     private $_noSubmatches = array();
-    private $_paramNames = array();
-    private $_params     = array();
+    private $_noDecodes    = array();
+    private $_paramNames   = array();
+    private $_params       = array();
 
     public function map($rule,$callable)
     {
@@ -53,6 +54,18 @@ class Route
         return $this;
     }
 
+    public function noDecodes($noDecodes = null)
+    {
+        if(is_null($noDecodes)){
+          return $this -> _noDecodes;
+        }
+        if(!is_array($noDecodes)){
+          throw new \InvalidArgumentException("noDecodes must be array");
+        }
+        $this -> _noDecodes = $noDecodes;
+        return $this;
+    }
+
     public function matches($pathInfo)
     {
         if (!preg_match('@^' . $this -> matchesRegex() . '$@', $pathInfo, $paramValues)) {
@@ -60,7 +73,7 @@ class Route
         }
         foreach ( $this -> _paramNames as $key ) {
             if ( isset($paramValues[$key]) ) {
-                $value = urldecode($paramValues[$key]);
+                $value = in_array($key, $this -> noDecodes()) ? $paramValues[$key] : urldecode($paramValues[$key]);
                 $this -> _params[$key] = in_array($key, $this -> noSubmatches()) ? $value : $this -> subMatches($value);
             }
         }
@@ -112,4 +125,5 @@ class Route
     {
        call_user_func_array($this -> callback(),array($this)); 
     }
+
 }

@@ -39,6 +39,15 @@ class Route extends ObjectBehavior
         $this -> shouldThrow(new \InvalidArgumentException("noSubmatches must be array")) -> duringnoSubmatches('test');
     }
 
+    function it_should_set_nodecode()
+    {
+        $noDecodes = array('foo','bar');
+        $this -> noDecodes($noDecodes)
+              -> noDecodes()
+              -> shouldBe($noDecodes);
+        $this -> shouldThrow(new \InvalidArgumentException("noDecodes must be array")) -> duringnoDecodes('test');
+    }
+
     function it_should_be_made_regex_for_matches()
     {
         $rule = "/yamaki/:ichiban/:niban";
@@ -144,7 +153,8 @@ class Route extends ObjectBehavior
         );
     }
 
-    function it_should_run(){
+    function it_should_run()
+    {
         $rule = "/yamaki/:ichiban/:niban";
         $this -> rule($rule)
               -> callback(function($route){
@@ -154,4 +164,15 @@ class Route extends ObjectBehavior
               -> matches('/yamaki/1/2')->shouldbe(true);
         $this -> run();
     }
+
+    function it_should_not_decode()
+    {
+        $rule = "/yamaki/:ichiban/:niban";
+        $this -> rule($rule)
+              -> noDecodes(array('niban'));
+        $this -> matches('/yamaki/%E3%82%84%E3%81%BE%E3%81%8D/%E6%97%85%E9%A4%A8')->shouldbe(true);
+        $this -> param('ichiban') -> shouldBe('やまき');
+        $this -> param('niban')  -> shouldBe('%E6%97%85%E9%A4%A8');
+    }
+
 }
