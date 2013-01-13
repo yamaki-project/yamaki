@@ -11,6 +11,13 @@ class Route extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Route');
     }
 
+    function it_should_be_initializable_from_generate()
+    {
+        //Now we can't test
+        //https://github.com/phpspec/phpspec2/pull/95
+        //$this->beCreatedStaticallyWith(array('Yamaki\Route', 'generate'), array());
+    }
+
     function it_should_set_rule()
     {
         $rule = "/yamaki/:ichiban/:niban";

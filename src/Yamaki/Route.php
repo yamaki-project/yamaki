@@ -11,6 +11,11 @@ class Route
     private $_paramNames   = array();
     private $_params       = array();
 
+    public static function generate()
+    {
+        return new self();
+    }
+
     public function map($rule,$callable)
     {
         $this->rule($rule);
@@ -125,5 +130,4 @@ class Route
     {
        call_user_func_array($this -> callback(),array($this)); 
     }
-
 }

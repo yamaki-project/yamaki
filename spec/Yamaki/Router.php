@@ -16,23 +16,23 @@ class Router extends ObjectBehavior
         $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
-        $route1 = new \Yamaki\Route();
-        $route1 -> rule("/hoge2/:fuga/")
+        $route1 = \Yamaki\Route::generate()
+                -> rule("/hoge2/:fuga/")
                 -> callback(function(){});
         $this -> put($route1);
 
-        $route2  = new \Yamaki\Route();
-        $route2 -> rule("/hoge/:fuga/")
+        $route2 = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
                 -> callback(function(){});
         $this -> put($route2);
 
-        $route3  = new \Yamaki\Route();
-        $route3 -> rule("/hoge/:fuga/")
+        $route3 = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
                 -> callback(function(){});
         $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed")) -> duringPut($route3);
 
-        $route4  = new \Yamaki\Route();
-        $route4 -> rule("/hoge/:fuga")
+        $route4 = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga")
                 -> callback(function(){});
         $this -> shouldThrow(new \InvalidArgumentException("same rule not be allowed")) -> duringPut($route4);
 
@@ -46,13 +46,13 @@ class Router extends ObjectBehavior
         $this -> input(new \Yamaki\Input());
 
 
-        $route1 = new \Yamaki\Route();
-        $route1 -> rule("/hoge1/:fuga/")
+        $route1 = \Yamaki\Route::generate()
+                -> rule("/hoge1/:fuga/")
                 -> callback(function(){});
         $this -> defaultRoute($route1);
 
-        $route2  = new \Yamaki\Route();
-        $route2 -> rule("/hoge2/:fuga/")
+        $route2 = \Yamaki\Route::generate()
+                -> rule("/hoge2/:fuga/")
                 -> callback(function(){});
         $this -> put($route2);
 
