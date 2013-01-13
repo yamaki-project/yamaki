@@ -4,9 +4,6 @@ namespace Yamaki\Input;
 
 class Client
 {
-    /*
-     */
-
     public function accept()
     {
         return array(
@@ -141,5 +138,13 @@ class Client
     public function cookie($key)
     {
         return isset($_COOKIE[$key]) ? $_COOKIE[$key] : "";
+    }
+
+    public function isSmartPhone()
+    {
+        if ( preg_match('/(iPad|iPod|iPhone|Android)/', $this->userAgent()) ) {
+            return true;
+        }
+        return false;
     }
 }
