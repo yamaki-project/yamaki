@@ -30,7 +30,10 @@ class Router
     public function dispatch()
     {
         foreach( $this -> _routes as $route ) {
-            if ( $route -> matches($this -> _input -> request()-> pathinfo())) {
+          $request = $this -> _input -> request();
+          if (  $route -> matches($request -> pathinfo())       &&
+                in_array($request -> method(),$route -> via())){
+
                 $route->run();
                 return $route;
             }

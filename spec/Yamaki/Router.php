@@ -11,6 +11,31 @@ class Router extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Router');
     }
 
+    function it_should_dispatch_via_method()
+    {
+        $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
+        $this -> input(new \Yamaki\Input());
+
+        $getRoute = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
+                -> viaGet()
+                -> callback(function(){});
+        $this -> put($getRoute);
+
+        $postRoute = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
+                -> viaPost()
+                -> callback(function(){});
+        $this -> put($postRoute);
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $this -> dispatch() -> shouldHaveType('Yamaki\Route');
+        $this -> dispatch() -> shouldBe($postRoute);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $this -> dispatch() -> shouldHaveType('Yamaki\Route');
+        $this -> dispatch() -> shouldBe($getRoute);
+    }
     function it_should_have_route()
     {
         $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
