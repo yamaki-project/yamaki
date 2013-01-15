@@ -31,7 +31,7 @@ class Router
     {
         foreach( $this -> _routes as $route ) {
           $request = $this -> _input -> request();
-          if (  $route -> matches($request -> pathinfo())       &&
+          if (  $route -> matches($request -> uri())       &&
                 in_array($request -> method(),$route -> via())){
 
                 $route->run($this -> _input);

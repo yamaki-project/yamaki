@@ -19,7 +19,7 @@ class Request extends ObjectBehavior
             'QUERY_STRING'       => 'k=v&k1=v2&k3=v4',
             'REQUEST_URI'        => '/index.html',
             'PATH_INFO'          => '/hoge/fuga/',
-            'ORIG_PATH_INFO'     => '/hoge/fuga/hage'
+            'ORIG_PATH_INFO'    => '/hoge/fuga/hage'
         );
     }
 
