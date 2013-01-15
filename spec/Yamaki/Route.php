@@ -190,7 +190,7 @@ class Route extends ObjectBehavior
                      $route -> param('niban');
         })
               -> matches('/yamaki/1/2')->shouldbe(true);
-        $this -> run();
+        $this -> run(null);
     }
 
     function it_should_not_decode()

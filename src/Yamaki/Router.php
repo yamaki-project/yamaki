@@ -34,11 +34,11 @@ class Router
           if (  $route -> matches($request -> pathinfo())       &&
                 in_array($request -> method(),$route -> via())){
 
-                $route->run();
+                $route->run($this -> _input);
                 return $route;
             }
         }
-        $this -> _defaultRoute -> run();
+        $this -> _defaultRoute -> run($this -> _input);
         return $this -> _defaultRoute;
     }
 
