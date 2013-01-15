@@ -13,7 +13,7 @@ class Router extends ObjectBehavior
 
     function it_should_dispatch_via_method()
     {
-        $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
+        $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
         $getRoute = \Yamaki\Route::generate()
@@ -36,7 +36,7 @@ class Router extends ObjectBehavior
         $this -> dispatch() -> shouldHaveType('Yamaki\Route');
         $this -> dispatch() -> shouldBe($getRoute);
 
-        $_SERVER['PATH_INFO'] = "/fuga/12345678.12345678/" ;
+        $_SERVER['REQUEST_URI'] = "/fuga/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
         $route = \Yamaki\Route::generate()
@@ -54,7 +54,7 @@ class Router extends ObjectBehavior
     }
     function it_should_have_route()
     {
-        $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
+        $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
         $willMatcheRoute = \Yamaki\Route::generate()
@@ -94,7 +94,7 @@ class Router extends ObjectBehavior
 
     function it_should_have_default_route()
     {
-        $_SERVER['PATH_INFO'] = "/hoge/12345678.12345678/" ;
+        $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
         $this -> input(new \Yamaki\Input());
 
 
