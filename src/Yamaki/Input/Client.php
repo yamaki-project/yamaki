@@ -4,6 +4,15 @@ namespace Yamaki\Input;
 
 class Client
 {
+    private static $instance;
+
+    public static function generate()
+    {
+        return isset(self::$instance) ? 
+            self::$instance : 
+            self::$instance = new self();
+    }
+
     public function accept()
     {
         return array(

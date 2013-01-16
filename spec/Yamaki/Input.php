@@ -11,6 +11,13 @@ class Input extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Input');
     }
 
+    function it_should_be_singleton()
+    {
+        $instance = $this->generate();
+        $instance -> shouldHaveType('Yamaki\Input');
+        $this->generate() -> shouldBe($instance);
+    }
+
     function it_should_have_members()
     {
         $this->request()->shouldHaveType('Yamaki\Input\Request');

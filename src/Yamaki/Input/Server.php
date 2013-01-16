@@ -4,6 +4,14 @@ namespace Yamaki\Input;
 
 class Server
 {
+    private static $instance;
+
+    public static function generate()
+    {
+        return isset(self::$instance) ? 
+            self::$instance : 
+            self::$instance = new self();
+    }
 
     public function ip()
     {

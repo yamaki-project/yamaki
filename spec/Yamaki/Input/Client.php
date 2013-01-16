@@ -11,6 +11,13 @@ class Client extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Input\Client');
     }
 
+    function it_should_be_singleton()
+    {
+        $instance = $this->generate();
+        $instance -> shouldHaveType('Yamaki\Input\Client');
+        $this->generate() -> shouldBe($instance);
+    }
+
     function let()
     {
         $_SERVER = array(
