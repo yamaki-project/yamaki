@@ -12,17 +12,17 @@ class Yamaki
     }
     public function get($rule,$function)
     {
-        $router = new Yamaki\Router();
-        $router -> input(\Yamaki\Input::generate());
-        $router -> defaultRoute(\Yamaki\Route::generate()
+        $router =  Yamaki\Router::generate()
+                -> input(\Yamaki\Input::generate())
+                -> defaultRoute(\Yamaki\Route::generate()
                     -> callback(function($route,$input){
                             echo "404 Not Found\n";
                         })
-                   );
-        $router -> put(\Yamaki\Route::generate()
+                   )
+                -> put(\Yamaki\Route::generate()
                     -> rule($rule)
                     -> viaGet()
-                    -> callback($function));
-        $router -> dispatch();
+                    -> callback($function))
+                -> dispatch();
     }
 }

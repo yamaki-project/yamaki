@@ -22,7 +22,7 @@ class Yamaki extends ObjectBehavior
     {
         $_SERVER['REQUEST_URI'] = "/yamaki/12345678/12345678/" ;
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this -> get("/yamaki/:ichiban/:niban",function($route,$input){
+        $this -> get("/yamaki/:ichiban/:niban/:sanban",function($route,$input){
             echo __FILE__.":".__LINE__."\n";
         });
     }
