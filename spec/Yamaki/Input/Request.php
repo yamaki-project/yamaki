@@ -10,6 +10,14 @@ class Request extends ObjectBehavior
     {
         $this->shouldHaveType('Yamaki\Input\Request');
     }
+
+    function it_should_be_singleton()
+    {
+        $instance = $this->generate();
+        $instance -> shouldHaveType('Yamaki\Input\Request');
+        $this->generate() -> shouldBe($instance);
+    }
+
     function let()
     {
         $_SERVER = array(

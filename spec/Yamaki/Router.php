@@ -11,16 +11,23 @@ class Router extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Router');
     }
 
+    function it_should_be_singleton()
+    {
+        $instance = $this->generate();
+        $instance -> shouldHaveType('Yamaki\Router');
+        $this->generate() -> shouldBe($instance);
+    }
+
     function it_should_dispatch_via_method()
     {
         $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
-        $this -> input(new \Yamaki\Input());
+        $this -> input(\Yamaki\Input::generate());
 
         $getRoute = \Yamaki\Route::generate()
                 -> rule("/hoge/:fuga/")
                 -> viaGet()
                 -> callback(function(){});
-        $this -> put($getRoute);
+        $this -> put($getRoute)->shouldHaveType('Yamaki\Router');
 
         $postRoute = \Yamaki\Route::generate()
                 -> rule("/hoge/:fuga/")
@@ -37,7 +44,7 @@ class Router extends ObjectBehavior
         $this -> dispatch() -> shouldBe($getRoute);
 
         $_SERVER['REQUEST_URI'] = "/fuga/12345678.12345678/" ;
-        $this -> input(new \Yamaki\Input());
+        $this -> input(\Yamaki\Input::generate());
 
         $route = \Yamaki\Route::generate()
                 -> rule("/fuga/:hoge")
@@ -55,7 +62,7 @@ class Router extends ObjectBehavior
     function it_should_have_route()
     {
         $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
-        $this -> input(new \Yamaki\Input());
+        $this -> input(\Yamaki\Input::generate());
 
         $willMatcheRoute = \Yamaki\Route::generate()
                 -> rule("/hoge/:fuga/")
@@ -95,13 +102,14 @@ class Router extends ObjectBehavior
     function it_should_have_default_route()
     {
         $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/" ;
-        $this -> input(new \Yamaki\Input());
+        $this -> input(\Yamaki\Input::generate());
 
 
         $route1 = \Yamaki\Route::generate()
                 -> rule("/hoge1/:fuga/")
                 -> callback(function(){});
-        $this -> defaultRoute($route1);
+        $this   -> defaultRoute($route1)
+                -> shouldHaveType('Yamaki\Router');
 
         $route2 = \Yamaki\Route::generate()
                 -> rule("/hoge2/:fuga/")

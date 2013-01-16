@@ -5,6 +5,14 @@ namespace Yamaki\Input;
 class Request
 {
 
+    private static $instance;
+
+    public static function generate()
+    {
+        return isset(self::$instance) ? 
+            self::$instance : 
+            self::$instance = new self();
+    }
     public function method()
     {
         return $_SERVER['REQUEST_METHOD'];

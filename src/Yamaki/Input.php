@@ -8,11 +8,20 @@ class Input
     private $_client;
     private $_server;
 
+    private static $instance;
+
+    public static function generate()
+    {
+        return isset(self::$instance) ? 
+            self::$instance : 
+            self::$instance = new self();
+    }
+
     public function __construct()
     {
-        $this -> _request = new Input\Request();
-        $this -> _server  = new Input\Server();
-        $this -> _client  = new Input\Client();
+        $this -> _request = Input\Request::generate();
+        $this -> _server  = Input\Server::generate();
+        $this -> _client  = Input\Client::generate();
     }
 
     public function request()

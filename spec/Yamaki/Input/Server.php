@@ -11,6 +11,13 @@ class Server extends ObjectBehavior
         $this->shouldHaveType('Yamaki\Input\Server');
     }
 
+    function it_should_be_singleton()
+    {
+        $instance = $this->generate();
+        $instance -> shouldHaveType('Yamaki\Input\Server');
+        $this->generate() -> shouldBe($instance);
+    }
+
     function let()
     {
         $_SERVER = array(
