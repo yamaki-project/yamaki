@@ -119,5 +119,18 @@ class Router extends ObjectBehavior
         $this -> dispatch() -> shouldHaveType('Yamaki\Route');
         $this -> dispatch() -> shouldBe($route1);
     }
+    function it_should_have_route_and_dispatch()
+    {
+        $_SERVER['REQUEST_URI'] = "/hoge/12345678.12345678/?url=http%3a%2f%2ftest.jp/path";
+        $this -> input(\Yamaki\Input::generate());
+
+        $willMatcheRoute = \Yamaki\Route::generate()
+                -> rule("/hoge/:fuga/")
+                -> callback(function(){});
+        $this -> put($willMatcheRoute);
+        $this -> dispatch() -> shouldHaveType('Yamaki\Route');
+        $this -> dispatch() -> shouldBe($willMatcheRoute);
+
+    }
 
 }

@@ -30,7 +30,7 @@ class Client
 
     public function referrer()
     {
-            return $_SERVER['HTTP_REFERER'];
+            return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     }
 
     public function userAgent()
