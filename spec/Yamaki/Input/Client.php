@@ -189,5 +189,9 @@ class Client extends ObjectBehavior
         $_SERVER['HTTP_USER_AGENT']  = $userAgent;
         $this->isSmartPhone()->shouldReturn(false);
     }
+    function it_should_fail_with_blank_referer() {
+        unset($_SERVER['HTTP_REFERER']);
+        $this->referrer()->shouldReturn('');
+    }
 
 }

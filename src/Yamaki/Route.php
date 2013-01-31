@@ -93,6 +93,8 @@ class Route
 
     public function matches($pathInfo)
     {
+        $tmp = explode("?", $pathInfo);
+        $pathInfo = $tmp[0];
         if (!preg_match('@^' . $this -> matchesRegex() . '$@', $pathInfo, $paramValues)) {
           return false;
         }
