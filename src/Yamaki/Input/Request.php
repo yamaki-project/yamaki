@@ -48,10 +48,13 @@ class Request
         return $_SERVER['ORIG_PATH_INFO'];
     }
 
-    public function queryHashByOrder()
+    public function queryHashByOrder($query = '')
     {
+        if (empty($query)) {
+            $query = $this->queryString();
+        }
         $hash = array();
-        foreach(preg_split("/[&;]/",$this -> queryString()) as $keyValue){
+        foreach(preg_split("/[&;]/",$query) as $keyValue){
             $keyValue = explode("=",$keyValue);
             if(count($keyValue)<2){
                 continue;
