@@ -56,6 +56,7 @@ class Request extends ObjectBehavior
         $this->queryHashByOrder()->shouldReturn(array("key"=>"藤原"));
         $_SERVER['QUERY_STRING'] = "aaa=bbb&ccc=ddd";
         $this->queryHashByOrder()->shouldReturn(array("aaa"=>"bbb", "ccc"=>"ddd"));
+        $this->queryHashByOrder("aaa=bbb&ccc=ddd&fff=")->shouldReturn(array("aaa" => "bbb" , "ccc" => "ddd" , "fff" => "")); 
     }
 
     function it_should_parse_query() {
