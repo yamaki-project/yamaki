@@ -9,6 +9,12 @@ class Router
     private $_routes = array();
     private static $instance;
 
+    public static function clear()
+    {
+        return isset(self::$instance) ? 
+            self::$instance = null : null;
+    }
+
     public static function generate()
     {
         return isset(self::$instance) ? 
