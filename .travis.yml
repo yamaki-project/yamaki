@@ -20,7 +20,7 @@ before_script:
   - php composer.phar install --dev
   - cd ../
 
-script: test/bin/phpunit --verbose test/Yamaki/
+script: php runTest.php
 notifications:
   email:
     on_success: never
