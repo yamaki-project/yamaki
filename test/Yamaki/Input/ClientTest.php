@@ -98,6 +98,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $beforeGETUid    = isset($_GET['uid']) ? $_GET['uid'] : "";
         $beforeUserAgent = $_SERVER['HTTP_USER_AGENT'];
+        $_SERVER['HTTP_USER_AGENT'] = null;
+        $this -> assertEquals($this -> obj->userId() ,"");
         //docomo
         $uid = '1234567890AB';
         $_GET['uid'] = $uid;

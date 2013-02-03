@@ -22,7 +22,7 @@ class Yamaki
         $default = is_null($default) ? 
                    function($route,$input){echo "404 Not Found\n";} :
                    $default;
-        $router =  Yamaki\Router::generate()
+        return Yamaki\Router::generate()
                 -> input(\Yamaki\Input::generate())
                 -> defaultRoute(\Yamaki\Route::generate()
                     -> callback($default)
@@ -38,7 +38,7 @@ class Yamaki
         $default = is_null($default) ? 
                    function($route,$input){echo "404 Not Found\n";} :
                    $default;
-        $router =  Yamaki\Router::generate()
+        return Yamaki\Router::generate()
                 -> input(\Yamaki\Input::generate())
                 -> defaultRoute(\Yamaki\Route::generate()
                     -> callback($default)
