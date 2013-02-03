@@ -18,6 +18,7 @@ before_script:
   - cd test
   - curl http://getcomposer.org/installer | php
   - php composer.phar install --dev
+  - cd ../
 
 script: test/bin/phpunit --verbose test/Yamaki/
 notifications:
