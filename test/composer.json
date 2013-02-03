@@ -1,0 +1,14 @@
+{
+    "config": {
+      "bin-dir": "bin"
+    },
+    "require": {
+        "php": "*",
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Yamaki": "../src"
+        }
+    }
+}
