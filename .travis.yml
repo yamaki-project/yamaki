@@ -15,10 +15,11 @@ branches:
     - develop
 
 before_script:
+  - cd test
   - curl http://getcomposer.org/installer | php
   - php composer.phar install --dev
 
-script: bin/phpspec run -v
+script: test/bin/phpunit --verbose test/Yamaki/
 notifications:
   email:
     on_success: never

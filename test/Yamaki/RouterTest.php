@@ -104,6 +104,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this -> assertFlase(true);
         }
 
+        $_SERVER['REQUEST_METHOD'] = 'POST';
         $this -> assertEquals(get_class($this -> obj -> dispatch()),'Yamaki\Route');
         $this -> assertEquals($this -> obj -> dispatch(),$willMatcheRoute);
     }
